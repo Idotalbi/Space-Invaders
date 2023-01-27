@@ -14,20 +14,20 @@ body {
 table {
     margin-left: auto;
     margin-right: auto;
-    border-spacing: 2px;
+    /* border-spacing: 2px; */
 }
 
 td {
-    height: 50px;
-    width: 50px;
-    font-size: 30px;
+    height: 42px;
+    width: 42px;
+    font-size: 28px;
     background-color: rgb(191, 148, 220);
     border-radius: 3px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 
 .floor {
-    background-color: rgb(126, 12, 12);
+    background-color: rgb(70, 2, 72);
 }
 
 button {

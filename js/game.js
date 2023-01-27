@@ -1,27 +1,33 @@
 'use strict'
-
 const BOARD_SIZE = 14
-const ALIENS_ROW_LENGTH = 8
-const ALIENS_ROW_COUNT = 3
+var ALIENS_ROW_LENGTH = 8
+var ALIENS_ROW_COUNT = 3
 
 const HERO = '🦸‍♂️'
 const ALIEN = '👽'
 const LASER = '⚡'
+const SUPER_LASER = '💥'
 const SKY = 'SKY'
 const FLOOR = 'FLOOR'
-// Matrix of cell objects. e.g.: {type: SKY, gameObject: ALIEN} 
+const CANDY = '🍬'
+
+
+var gIntervalCandy
+var gSetTimeOutCandy
 var gBoard
 var gGame
 
-// Called when game loads 
 function init() {
     if (gIntervalAliens) clearInterval(gIntervalAliens)
     if (gIntervalLaser) clearInterval(gIntervalLaser)
+    if (gIntervalCandy) clearInterval(gIntervalCandy)    
+    
     gGame = {
-        isOn: false,
+        isOn: true,
         score: 0,
         aliensCount: 0,
     }
+
     gBoard = createBoard()
     // console.log('gBoard:', gBoard)
     createHero(gBoard)
@@ -31,9 +37,11 @@ function init() {
     hideEl('.modal')
     hideEl('.game-over')
     showEl('.game-container')
+    gIntervalCandy = setInterval(creatCandy, 10000)
+
 }
-// Create and returns the board with aliens on top, ground at bottom 
-// use the functions: createCell, createHero, createAliens  
+
+
 function createBoard() {
     var size = BOARD_SIZE
     const board = []
@@ -50,7 +58,6 @@ function createBoard() {
 }
 
 
-// Render the board as a <table> to the page 
 function renderBoard(board) {
     var strHTML = ''
     for (var i = 0; i < board.length; i++) {
@@ -67,6 +74,8 @@ function renderBoard(board) {
             if (currCell.gameObject === ALIEN) strHTML += ALIEN
             else if (currCell.gameObject === HERO) strHTML += HERO
             else if (currCell.gameObject === LASER) strHTML += LASER
+            else if (currCell.gameObject === SUPER_LASER) strHTML += SUPER_LASER
+            else if (currCell.gameObject === CANDY) strHTML += CANDY
 
             strHTML += `</td >`
 
@@ -77,12 +86,50 @@ function renderBoard(board) {
     elBoard.innerHTML = strHTML
 }
 
-// Returns a new cell object. e.g.: {type: SKY, gameObject: ALIEN} 
-function createCell(gameObject = null) {
-    return {
-        type: SKY,
-        gameObject: gameObject
+
+
+
+function getEmptyCells() {
+    const emptyCells = []
+    for (var i = 0; i < gBoard.length; i++) {
+        for (var j = 0; j < gBoard[0].length; j++) {
+            var currCell = gBoard[i][j]
+            if (currCell.type === FLOOR || currCell.gameObject === ALIEN ||
+                currCell.gameObject === HERO || currCell.i > 1) continue
+            emptyCells.push({ i, j })
+        }
     }
+    return emptyCells
+}
+
+
+function creatCandy() {
+    var emptyCells = getEmptyCells()
+    var pos = emptyCells[getRandomInt(0, BOARD_SIZE - 1)]
+    updateCell({ i: pos.i, j: pos.j }, CANDY)
+    gSetTimeOutCandy= setTimeout(() => { updateCell({ i: pos.i, j: pos.j }, '') }, 5000)
+}
+
+function changeLevel(level) {
+    if (level === 'easy') {
+        ALIENS_ROW_LENGTH = 6
+        ALIENS_ROW_COUNT = 3
+        ALIEN_SPEED = 600
+    }
+    if (level === 'medium') {
+        ALIENS_ROW_LENGTH = 9
+        ALIENS_ROW_COUNT = 3
+        ALIEN_SPEED = 400
+    }
+    if (level === 'hard') {
+        ALIENS_ROW_LENGTH = 9
+        ALIENS_ROW_COUNT = 4
+        ALIEN_SPEED = 300
+    }
+
+
+    init(ALIENS_ROW_LENGTH, ALIENS_ROW_COUNT, ALIEN_SPEED)
+
 }
 
 
@@ -96,15 +143,17 @@ function checkVictory() {
 }
 
 
-
 function victory() {
     resetGame()
     showEl('.modal')
+    playSound('win', 'wav')
 }
+
 
 function gameOver() {
     resetGame()
     showEl('.game-over')
+    playSound('game over', 'wav')
 }
 
 
@@ -112,6 +161,8 @@ function resetGame() {
     hideEl('.game-container')
     clearInterval(gIntervalAliens)
     clearInterval(gIntervalLaser)
+    clearInterval(gIntervalCandy)
+    clearTimeout(gSetTimeOutCandy)
     gGame.aliensCount = 0
     gGame.score = 0
 }

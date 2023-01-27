@@ -1,6 +1,6 @@
 'use strict'
 
-const ALIEN_SPEED = 500
+var ALIEN_SPEED = 500;
 var gIntervalAliens
 var gAliensTopRowIdx
 var gAliensBottomRowIdx
@@ -31,7 +31,7 @@ function shiftBoardRight(board, fromI, toI) {
                 if (j === board.length - 1) {
                     gIsRight = true
                     clearInterval(gIntervalAliens)
-                    gIntervalAliens = setInterval(() => { shiftBoardDown(board, gAliensTopRowIdx, gAliensBottomRowIdx) }, ALIEN_SPEED)
+                    gIntervalAliens = setInterval(() => { shiftBoardDown(gBoard, gAliensTopRowIdx, gAliensBottomRowIdx) }, ALIEN_SPEED)
                     return
                 }
                 updateCell({ i: i, j: j }, '')
@@ -91,3 +91,5 @@ function moveAliens() {
     }
 
 }
+
+
