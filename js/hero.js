@@ -12,7 +12,7 @@ var gIsAlienFreeze
 var gTimeOut
 
 function createHero(gBoard) {
-    gHero = { pos: { i: 12, j: 5 }, isShoot: false }
+    gHero = { pos: { i: 12, j: 5 },gIsSuper:false, isShoot: false }
     gBoard[gHero.pos.i][gHero.pos.j].gameObject = HERO
 
     // gHero.isShoot = false

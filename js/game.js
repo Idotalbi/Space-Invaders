@@ -20,8 +20,8 @@ var gGame
 function init() {
     if (gIntervalAliens) clearInterval(gIntervalAliens)
     if (gIntervalLaser) clearInterval(gIntervalLaser)
-    if (gIntervalCandy) clearInterval(gIntervalCandy)    
-    
+    if (gIntervalCandy) clearInterval(gIntervalCandy)
+
     gGame = {
         isOn: true,
         score: 0,
@@ -107,7 +107,7 @@ function creatCandy() {
     var emptyCells = getEmptyCells()
     var pos = emptyCells[getRandomInt(0, BOARD_SIZE - 1)]
     updateCell({ i: pos.i, j: pos.j }, CANDY)
-    gSetTimeOutCandy= setTimeout(() => { updateCell({ i: pos.i, j: pos.j }, '') }, 5000)
+    gSetTimeOutCandy = setTimeout(() => { updateCell({ i: pos.i, j: pos.j }, '') }, 5000)
 }
 
 function changeLevel(level) {
