@@ -1,6 +1,6 @@
 'use strict'
 
-var ALIEN_SPEED = 500;
+var ALIEN_SPEED = 500
 var gIntervalAliens
 var gAliensTopRowIdx
 var gAliensBottomRowIdx
@@ -14,7 +14,7 @@ function createAliens(board) {
             gGame.aliensCount++
         }
     }
-    console.log('gGame.aliensCount:', gGame.aliensCount)
+    // console.log('gGame.aliensCount:', gGame.aliensCount)
     gAliensTopRowIdx = 0
     gAliensBottomRowIdx = ALIENS_ROW_COUNT - 1
     gIsRight = false
@@ -66,7 +66,7 @@ function shiftBoardDown(board, fromI, toI) {
     for (var i = toI; i >= fromI; i--) {
         for (var j = 0; j <= board.length - 1; j++) {
             if (board[i + 1][j].gameObject === HERO) {
-                clearInterval(gIntervalAliens)
+                // clearInterval(gIntervalAliens)
                 gameOver()
                 return
             }

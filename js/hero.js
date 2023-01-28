@@ -13,7 +13,7 @@ var gIsAlienFreeze
 function createHero(gBoard) {
     gHero = { pos: { i: 12, j: 5 }, gIsSuper: false, isShoot: false, gBlowNegs: false, }
     gBoard[gHero.pos.i][gHero.pos.j].gameObject = HERO
-    gSuperCount = 3
+    // gSuperCount = 3
     // updateSuperCount(3)
 }
 

@@ -18,21 +18,22 @@ var gBoard
 var gGame
 
 function init() {
-    if (gIntervalAliens) clearInterval(gIntervalAliens)
-    if (gIntervalLaser) clearInterval(gIntervalLaser)
-    if (gIntervalCandy) clearInterval(gIntervalCandy)
+    // gSuperCount = 0
 
     gGame = {
         isOn: true,
         score: 0,
         aliensCount: 0,
     }
-
+    if (gIntervalAliens) clearInterval(gIntervalAliens)
+    if (gIntervalLaser) clearInterval(gIntervalLaser)
+    if (gIntervalCandy) clearInterval(gIntervalCandy)
     gBoard = createBoard()
-    // console.log('gBoard:', gBoard)
     createHero(gBoard)
     createAliens(gBoard)
     renderBoard(gBoard)
+    gSuperCount = 0
+    updateSuperCount(3)
     updateScore(0)
     hideEl('.modal')
     hideEl('.game-over')
@@ -159,10 +160,10 @@ function gameOver() {
 
 function resetGame() {
     hideEl('.game-container')
-    clearInterval(gIntervalAliens)
-    clearInterval(gIntervalLaser)
-    clearInterval(gIntervalCandy)
-    clearTimeout(gSetTimeOutCandy)
+    if (gIntervalAliens) clearInterval(gIntervalAliens)
+    if (gIntervalLaser) clearInterval(gIntervalLaser)
+    if (gIntervalCandy) clearInterval(gIntervalCandy)
+    if (gSetTimeOutCandy) clearTimeout(gSetTimeOutCandy)
     gGame.aliensCount = 0
     gGame.score = 0
 }
