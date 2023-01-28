@@ -9,24 +9,19 @@ var gBlowNegs
 var gIsSuper
 var gSuperCount
 var gIsAlienFreeze
-var gTimeOut
 
 function createHero(gBoard) {
-    gHero = { pos: { i: 12, j: 5 },gIsSuper:false, isShoot: false }
+    gHero = { pos: { i: 12, j: 5 }, gIsSuper: false, isShoot: false, gBlowNegs: false, }
     gBoard[gHero.pos.i][gHero.pos.j].gameObject = HERO
-
-    // gHero.isShoot = false
-    gBlowNegs = false
-    // gIsSuper = false
-    gSuperCount = 0
-    updateSuperCount(3)
+    gSuperCount = 3
+    // updateSuperCount(3)
 }
 
 function onKeyDown(event) {
 
     const nextLocation = {
         i: gHero.pos.i,
-        j: gHero.pos.j
+        j: gHero.pos.j,
     }
 
     switch (event.key) {
@@ -47,6 +42,7 @@ function onKeyDown(event) {
             gBlowNegs = true
             break;
         case 'x':
+            console.log(gSuperCount)
             if (gSuperCount === 0) return
             gIsSuper = true
             updateSuperCount(-1)
@@ -72,7 +68,6 @@ function moveHero(nextLocation) {
 
 function shoot(nextLocation) {
     if (gHero.isShoot) return
-    clearInterval(gIntervalLaser)
     if (gIsSuper) {
         gIntervalLaser = setInterval(() => { blinkLaser(nextLocation) }, SUPER_LASER_SPEED)
         playSound('superlaser', 'mp3')
@@ -85,7 +80,6 @@ function shoot(nextLocation) {
 
 function blinkLaser(nextLocation) {
     gHero.isShoot = true
-    var nextCell = getElCell({ i: nextLocation.i - 1, j: nextLocation.j })
     if (nextLocation.i === 0) {
         updateCell(nextLocation, '')
         clearInterval(gIntervalLaser)
@@ -93,12 +87,15 @@ function blinkLaser(nextLocation) {
         gIsSuper = false
         return
     }
+    var nextCell = getElCell({ i: nextLocation.i - 1, j: nextLocation.j })
     if (nextCell.innerText === CANDY) {
         updateScore(50)
         gIsAlienFreeze = true
-        gTimeOut = setTimeout(() => {
+        gSetTimeOutCandy = setTimeout(() => {
             gIsAlienFreeze = false
         }, 5000)
+        gHero.isShoot = false
+        gIsSuper = false
     }
 
     if (nextCell.innerText === ALIEN) {
@@ -142,7 +139,6 @@ function blowUpNegs(board, rowIdx, colIdx) {
             if (currCell.gameObject === ALIEN) {
                 negsCount++
                 console.log('negsCount:', negsCount)
-                // gGame.aliensCount+=gGame.aliensCount
                 updateCell({ i, j }, '')
             }
         }
