@@ -5,15 +5,15 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
     <link rel="shortcut icon" href="#">
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()">
     <title>Space Invaders👽</title>
 
     <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body onkeydown="onKeyDown(event)" onload="init()">
-
+    
     <h1>Space Invaders</h1>
     <button onclick="changeLevel('easy')">Easy</button>
     <button onclick="changeLevel('medium')">Medium</button>
@@ -23,7 +23,12 @@
         <h2>SCORE:<span class="score">0</span></h2>
         <table>
             <tbody class="board"></tbody>
-            <h2>Victorius🏆</h2>
+        </table>
+    </div>
+
+    <div class="modal hidden">
+        <button class="victorius-btn" onclick="init()">RESTART</button>
+        <h2>Victorius🏆</h2>
     </div>
 
     <div class="game-over hidden">
@@ -31,7 +36,7 @@
         <h2>💀Game Over💀</h2>
     </div>
 
-    <script src="js/utils.js"></script>
+    <script src="js/util.js"></script>
     <script src="js/hero.js"></script>
     <script src="js/alien.js"></script>
     <script src="js/game.js"></script>
